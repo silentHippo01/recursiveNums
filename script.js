@@ -1,41 +1,16 @@
-const nums = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
-const target = 200;
+const digits = [9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 
-function solve(expression, targetValue, nums, currentNumIndex, currentResult) {
-    if (currentNumIndex === nums.length) {
-        if (currentResult === targetValue) {
-            console.log(expression + "= " + targetValue);
-        }
-        return expression;
+function findExpression(target, index, expression) {
+  if (index === digits.length) {
+    const result = eval(expression);
+    if (result === target) {
+      console.log(expression + " = " + result);
     }
-
-    const currentNumStr = nums[currentNumIndex].toString();
-    const nextNumIndex = currentNumIndex + 1;
-
-    solve(
-        expression + currentNumStr,
-        targetValue,
-        nums,
-        nextNumIndex,
-        currentResult + nums[currentNumIndex]
-    );
-
-    if (currentNumIndex > 0) {
-        solve(
-            expression + "+" + currentNumStr,
-            targetValue,
-            nums,
-            nextNumIndex,
-            currentResult + nums[currentNumIndex]
-        );
-        solve(
-            expression + "-" + currentNumStr,
-            targetValue,
-            nums,
-            nextNumIndex,
-            currentResult - nums[currentNumIndex]
-        );
-    }
+    return;
+  }
+  findExpression(target, index + 1, expression + digits[index]);
+  findExpression(target, index + 1, expression + "+" + digits[index]);
+  findExpression(target, index + 1, expression + "-" + digits[index]);
 }
 
-solve("", target, nums, 0, 0);
+findExpression(200, 1, "9");
